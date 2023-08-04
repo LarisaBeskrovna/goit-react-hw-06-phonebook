@@ -1,24 +1,32 @@
 import css from './addContact.module.css';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 
-const AddContact = ({ onContactCreate }) => {
+const AddContact = ({ addContacts }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const contacts = useSelector(state => state.contactsState.contacts);
+  const dispatch = useDispatch();
 
   const handleFormChange = e => {
-    const { name, value } = e.target;
-    if (name === 'name') {
-      setName(value);
-    } else if (name === 'number') {
-      setNumber(value);
-    }
+    e.target.name === 'name' && setName(e.target.value);
+    e.target.name === 'number' && setNumber(e.target.value);
   };
 
   const handleFormSubmit = e => {
     e.preventDefault();
-    onContactCreate(name, number);
+    const isExist = contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (isExist) {
+      alert(`${name} is already in contacts`);
+      return;
+    } else {
+      dispatch(addContacts({ id: nanoid(), name: name, number: number }));
+    }
     setName('');
     setNumber('');
   };

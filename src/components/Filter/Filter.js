@@ -1,7 +1,13 @@
+import { useDispatch } from 'react-redux';
+import { fromfilter } from '..//../redux/filtr';
 import css from './filter.module.css';
 import PropTypes from 'prop-types';
 
-const Filter = ({ filter, filterChange }) => {
+const Filter = ({ valueFilter }) => {
+  const dispatch = useDispatch();
+  const changeFilter = event => {
+    dispatch(fromfilter(event.target.value));
+  };
   return (
     <div className={css.container}>
       <h2 className={css.find_title}>Find contacts by name</h2>
@@ -9,16 +15,17 @@ const Filter = ({ filter, filterChange }) => {
         type="text"
         className={css.find_input}
         name="filter"
-        value={filter}
+        value={valueFilter}
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        onChange={filterChange}
+        onChange={changeFilter}
       />
     </div>
   );
 };
 
 Filter.propTypes = {
-  filterChange: PropTypes.func.isRequired,
+  filter: PropTypes.string,
+  filterChange: PropTypes.func,
 };
 
 export default Filter;
