@@ -2,12 +2,13 @@ import css from './addContact.module.css';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
+import { addContacts } from 'redux/contact';
+import { selectContacts } from 'redux/selector';
 
-const AddContact = ({ addContacts }) => {
+const AddContact = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(state => state.contactsState.contacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const handleFormChange = e => {
@@ -71,10 +72,6 @@ const AddContact = ({ addContacts }) => {
       </form>
     </div>
   );
-};
-
-AddContact.propTypes = {
-  onContactCreate: PropTypes.func.isRequired,
 };
 
 export default AddContact;

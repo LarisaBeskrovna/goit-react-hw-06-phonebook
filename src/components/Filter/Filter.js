@@ -1,9 +1,11 @@
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectFilter } from 'redux/selector';
 import { fromfilter } from '..//../redux/filtr';
 import css from './filter.module.css';
-import PropTypes from 'prop-types';
 
-const Filter = ({ valueFilter }) => {
+const Filter = () => {
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
   const changeFilter = event => {
     dispatch(fromfilter(event.target.value));
@@ -15,17 +17,12 @@ const Filter = ({ valueFilter }) => {
         type="text"
         className={css.find_input}
         name="filter"
-        value={valueFilter}
+        value={filter}
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         onChange={changeFilter}
       />
     </div>
   );
-};
-
-Filter.propTypes = {
-  filter: PropTypes.string,
-  filterChange: PropTypes.func,
 };
 
 export default Filter;
